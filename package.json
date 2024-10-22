@@ -1,0 +1,8 @@
+{
+  "name": "tencentcloud-autoexpand",
+  "packageManager": "yarn@3.2.3",
+  "dependencies": {
+    "hydrooj": "workspace:^",
+    "tencentcloud-sdk-nodejs": "^4.0.961"
+  }
+}
