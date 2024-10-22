@@ -104,9 +104,12 @@ const tatClient = new tencentcloud.tat.v20201028.Client({
 
 const serversPool = new Map<string, Server>();
 let lastReleaseAt = 0;
+let creating = false, releasing = false;
 
 // 这个函数创建一个新的服务器实例，默认创建一台，加入到服务器池中
 async function addInstance(serverCount = 1) {
+  if (creating) return;
+  creating = true;
   const data = await client.RunInstances({
     InstanceChargeType: CONFIG.CVMInstanceChargeType,
     InstanceCount: serverCount,
@@ -116,16 +119,20 @@ async function addInstance(serverCount = 1) {
     }
   });
   data.InstanceIdSet.forEach((i) => serversPool.set(i, { instanceId: i, createdAt: Date.now() }));
+  creating = false;
   return data;
 }
 
 async function releaseInstance(InstanceIds: string[]) {
   if (InstanceIds.length === 0) return;
+  if (releasing) return;
+  releasing = true;
   lastReleaseAt = Date.now();
   logger.info(`实例空闲过多，正在释放实例 ${InstanceIds.join(' ')}.`)
   await client.TerminateInstances({
     InstanceIds,
   });
+  releasing = false;
 }
 
 async function installServerFor(InstanceIds) {
