@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/0f010f0b-253a-450b-a56f-a16a8e821441)# tencentcloud-autoexpand
+# tencentcloud-autoexpand
 
 一个 Hydro 插件，用于在评测队列过于拥挤的时候自动创建评测机。
 
