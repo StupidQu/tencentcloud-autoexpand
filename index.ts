@@ -153,7 +153,7 @@ const waitingCount = [];
 
 function isNeedExpand() {
   let lastExpandedAt = Math.max(...Array.from(serversPool.values()).map(i => i.createdAt));
-  const minWaitingCount = Math.min(...[0, ...waitingCount.slice(Math.max(0, waitingCount.length - CONFIG.ExpandIfDuration), -1)]);
+  const minWaitingCount = Math.min(...[Number.MAX_SAFE_INTEGER, ...waitingCount.slice(Math.max(0, waitingCount.length - CONFIG.ExpandIfDuration), -1)]);
   return (Date.now() > lastExpandedAt + CONFIG.ExpandIfSinceLast * 1000) && (minWaitingCount > CONFIG.ExpandIfWaitingTasksMoreThan);
 }
 
