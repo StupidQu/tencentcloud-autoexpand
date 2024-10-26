@@ -132,6 +132,7 @@ async function releaseInstance(InstanceIds: string[]) {
   await client.TerminateInstances({
     InstanceIds,
   });
+  InstanceIds.forEach((i) => serversPool.delete(i));
   releasing = false;
 }
 
