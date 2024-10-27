@@ -157,7 +157,7 @@ async function installServerFor(InstanceIds) {
   }
 }
 
-const waitingCount = [];
+const waitingCount = [0];
 
 function isNeedExpand() {
   let lastExpandedAt = Math.max(...Array.from(serversPool.values()).map(i => i.createdAt));
