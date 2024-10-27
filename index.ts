@@ -1,6 +1,6 @@
 // 注意：该插件会产生费用，用于当评测队列过于拥挤时，自动扩容评测队列。
 
-import { Logger, RecordModel, STATUS, fs, sleep, yaml } from 'hydrooj';
+import { Context, Logger, RecordModel, STATUS, fs, sleep, yaml } from 'hydrooj';
 const tencentcloud = require('tencentcloud-sdk-nodejs');
 
 const logger = new Logger('auto-expand');
@@ -208,9 +208,10 @@ function autoExpandAndRelease() {
   return intervalId;
 }
 
-export async function apply() {
+export async function apply(ctx: Context) {
   loadServers();
-  autoExpandAndRelease();
+  const intervalId = autoExpandAndRelease();
+  ctx.on('dispose', () => clearInterval(intervalId));
 
   logger.info('Auto expand service started. Make sure you have enough balance in your account.');
 }
